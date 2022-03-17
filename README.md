@@ -8,7 +8,7 @@ Below are a description of each file included in this repository.
 1. Data files
 a. Trait and seedset data.xlsx: an excel file containing phenotype data for all _Turnera ulmifolia_ plants. Second tab includes data from seedset experiment.
 
-b. pheno.txt: text file containing data for all plants. This file is uploaded in the following R codes : GMatrix_Estimation_final.R.
+b. pheno.txt: text file containing data for all plants. This file is uploaded in the following R codes : GMatrix_Estimation_final.R, Population_Mean_Trait_Variation.R.
 
 c. seedset.txt: text file containing data for the seedest experiment. This file is uploaded in the following R codes : GMatrix_Estimation_Final.R.
 
@@ -20,3 +20,5 @@ e. pedmat.txt: text file containing pedigree information. This file is used in t
 a. GMatrix_Estimation_final.R: (sample) code that fits G matrices and univariate Bayesian objects for all populations of _T. ulmifolia_. Also includes code for construction of G matrix for seedset experiment. 
 
 b. Bayesian_Heritability_final.R: (sample) code that fits univariate Bayesian objects to randomized datasets for each population of _T. ulmifolia_ for the purposes of significance testing.
+
+c. Population_Mean_Trait_Variation.R: code that generates Figure 3, which displays variation in mean trait values among populations.
