@@ -21,7 +21,7 @@ Below are a description of each file included in this repository. For ease of in
   
 2. Fitting G matrices and univariate Bayesian objects
 
-  a. GMatrix_Estimation_final.R: (sample) code that fits G matrices and univariate Bayesian objects for all populations of _T. ulmifolia_. Also includes code for   construction of G matrix for seedset experiment. 
+  a. GMatrix_Estimation_final.R: (sample) code that fits G matrices and univariate Bayesian objects for all populations of _T. ulmifolia_. Also includes code for   construction of G matrix for seedset experiment, the signigicance testing of diagonal elements, and the generation of randomized data sets for each population.
   
   b. b. Bayesian_Heritability_final.R: (sample) code that fits univariate Bayesian objects to randomized datasets for each population of _T. ulmifolia_ for the purposes of significance testing.
   
