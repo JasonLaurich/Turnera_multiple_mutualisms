@@ -21,6 +21,16 @@ Below are a description of each file included in this repository. For ease of in
   
   b. b. Bayesian_Heritability_final.R: (sample) code that fits univariate Bayesian objects to randomized datasets for each population of _T. ulmifolia_ for the purposes of significance testing.
   
-3. Miscellaneous
+3. Comparison of G matrices
+
+  a. Gcomp_final.R: code which assesses differences among our 5 population-specific estimates of G, and uploads randomly-generated G matrices for the purposes of significance testing.
+  
+  b. krzan.txt: text file containing the results of Krzanowski's analysis performed on null G matrices fitted per Morrisey et al., 2019, Evolution. This file is used in the following R codes : Gcomp_final.R
+  
+  c. fourth_order.txt: text file containing the results of the fourth order genetic covariance tensor performed on null G matrices fitted per Morrisey et al., 2019, Evolution. This file is used in the following R codes : Gcomp_final.R
+  
+  d. ranskew.txt: text file containing the results of the random skewer analysis performed on null G matrices fitted per Morrisey et al., 2019, Evolution. This file is used in the following R codes : Gcomp_final.R
+  
+4. Miscellaneous
 
   a. Population_Mean_Trait_Variation.R: code that generates Figure 3, which displays variation in mean trait values among populations.
