@@ -39,6 +39,8 @@ Below are a description of each file included in this repository. For ease of in
   
   e-i. BT_ranG_final - SA_ranG_final: summary files containing the values for genetic variances and covariances fit based on randomized data, as per Morrisey et al., 2019, Evolution. This file is used in the following R codes : Gcomp_final.R
   
+  j. Dmatrix_estimation_Bayes.R: code used to estimate D and compare it to various estimates of G (Gw and population-specific G's)
+  
 ######################################################################################
   
 4. Miscellaneous
