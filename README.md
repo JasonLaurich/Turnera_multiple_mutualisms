@@ -37,9 +37,11 @@ Below are a description of each file included in this repository. For ease of in
   
   d. ranskew.txt: text file containing the results of the random skewer analysis performed on null G matrices fitted per Morrisey et al., 2019, Evolution. This file is used in the following R codes : Gcomp_final.R
   
-  e-i. BT_ranG_final - SA_ranG_final: summary files containing the values for genetic variances and covariances fit based on randomized data, as per Morrisey et al., 2019, Evolution. This file is used in the following R codes : Gcomp_final.R
+  e-i. BT_ranG_final - SA_ranG_final: summary files containing the values for genetic variances and covariances fit based on randomized data, as per Morrisey et al., 2019, Evolution. This file is used in the following R codes : Gcomp_final.R, Gcomp_random.R.
   
   j. Dmatrix_estimation_Bayes.R: code used to estimate D and compare it to various estimates of G (Gw and population-specific G's)
+  
+  k. Gcom_random.R: code to be run on a server, that uploads the randomized G's and then runs comparisons for each set of null results. 
   
 ######################################################################################
   
