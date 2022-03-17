@@ -50,3 +50,5 @@ Below are a description of each file included in this repository. For ease of in
 4. Miscellaneous
 
   a. Population_Mean_Trait_Variation.R: code that generates Figure 3, which displays variation in mean trait values among populations.
+  
+  b. Evolutionary_Constraint.T: code that multiplies matrices by selection skewers to assess constraint/facilitation and calculate R values. 
