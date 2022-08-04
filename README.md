@@ -3,7 +3,7 @@ This is a repository for data and code pertaining to the manuscript "The genetic
 
 Below are a description of each file included in this repository. For ease of interpretation, I have broken code and data files into conceptual sections.
 
-#########################################Data#############################################
+######################################################################################
 
 1. "Keystone" data summarizing key information or used in multiple analyses.
 
@@ -31,7 +31,7 @@ Below are a description of each file included in this repository. For ease of in
   
 3. Comparison of G matrices
 
-  a. Gcomp_final.R: code which assesses differences among our 5 population-specific estimates of G, and uploads randomly-generated G matrices for the purposes of significance testing.
+  a. Gcomp_final.R: code which assesses differences among our 5 population-specific estimates of G, and uploads summary statistics from comparing randomly-generated G matrices for the purposes of significance testing.
   
   b. krzan.txt: text file containing the results of Krzanowski's analysis performed on null G matrices fitted per Morrisey et al., 2019, Evolution. This file is used in the following R codes : Gcomp_final.R
   
