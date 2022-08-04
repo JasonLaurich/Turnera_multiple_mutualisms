@@ -9,12 +9,6 @@
 
 require(MCMCglmm)
 
-IDscale <- function(inputdf,IDcol=1) {
-  tmp <- scale(inputdf, center = TRUE, scale = TRUE)#
-  tmp[,IDcol]<- inputdf[,IDcol]#restore id
-  return(tmp)
-}
-
 #Will require changing directory
 setwd("C:/Users/Jason/Desktop/ExperimentalData/TurnChap1/Final Analysis/Curated files/Dryad files")
 
@@ -22,19 +16,31 @@ setwd("C:/Users/Jason/Desktop/ExperimentalData/TurnChap1/Final Analysis/Curated 
 
 # Upload data files and reorganize them 
 
-pheno<- read.table("pheno.txt",stringsAsFactors=F,header=F)#phenotypes
-names(pheno)<-c('id','site','mat','elave','efn','fn','herk','growth','efn_nec')
+df<- read.table("pheno_efnpernec.txt",stringsAsFactors=F,header=F)#phenotypes
+names(df)<-c('id','site','mat','elave','efn','fn','herk','growth','efn_nec')
 
 ped <- read.table("pedmat.txt",stringsAsFactors=F,header=F)#pedigree
 names(ped)<-c('id','sire','dam','dam.pop','sire.pop')
 
-data<-pheno[!(pheno$site=='Extra'),]
-data<-data[(data$efn>0),]
-data<-droplevels(data)
+df$mn_elave<-df$elave/mean(df$elave, na.rm=T)
+df$mn_efn_nec<-df$efn_nec/mean(df$efn_nec, na.rm=T)
+df$mn_fn<-df$fn/mean(df$fn, na.rm=T)
+df$mn_herk<-df$herk/mean(df$herk, na.rm=T)
 
-dataG<-data[(!is.na(data$efn)&!is.na(data$elave)&!is.na(data$fn)&!is.na(data$herk)),]
+id<-c(1:2000)
+block<-c(rep(1,1000),rep(2,1000))
+blk<-as.data.frame(cbind(id,block))
+df<-merge(x=df,y=blk,by.x="id",by.y="id",all.x=F,all.y=F)
 
-dataG$lnfn<-log(dataG$fn+1)
+master<-merge(x=df,y=ped,by.x="id",by.y="id",all.x=F,all.y=F)
+allped<-master[,c(1,15:16)]
+allped<-droplevels(allped)
+
+jam.ped <- data.frame(
+  id=c(unique(allped$dam),allped$id),
+  sire = c(rep(NA,length.out=198), allped$sire), 
+  dam=c(rep(NA,length.out=198),allped$sire))
+
 
 dataJam<-dataG[,-c(2,3)]
 jam.data <- as.data.frame(IDscale(dataJam))
@@ -47,19 +53,26 @@ master<-merge(x=jam.pheno,y=ped,by.x="id",by.y="id",all.x=F,all.y=F)
 allped<-master[,c(1,10:11)]
 allped<-droplevels(allped)
 
-jam.pheno$id<-as.integer(jam.pheno$id)
-allped$id<-as.integer(allped$id)
-
 jam.ped <- data.frame(
   id=c(unique(allped$dam),allped$id),
-  sire = c(rep(NA,length.out=190), allped$sire), 
-  dam=c(rep(NA,length.out=190),allped$sire))
+  sire = c(rep(NA,length.out=198), allped$sire), 
+  dam=c(rep(NA,length.out=198),allped$sire))
 
-colnames(jam.pheno)[1]<-"animal"
+colnames(df)[1]<-"animal"
 colnames(jam.ped)[1]<-"animal"
 
-# Need to change block to a character
-jam.pheno$block<-as.character(jam.pheno$block)
+#Need to change block to a character
+df$block<-as.character(df$block)
+
+prior<-list(G=list(G1=list(V=0.01, nu=3),G2=list(V=diag(4)*0.5,nu=3)), R=list(V=diag(4)*0.5,nu=3))
+
+GM_fin_lrg<-MCMCglmm(cbind(mn_elave,mn_efn_nec,mn_fn,mn_herk) ~ 1 , 
+                 random=~block + us(trait):animal, rcov=~us(trait):units, #no trait main effect, should be 0 since data is centered (above)
+                 family=c("gaussian","gaussian","gaussian","gaussian"),
+                 pedigree=jam.ped, data=jam.pheno, prior=prior,
+                 verbose=FALSE,pr=TRUE,nitt=10100000, thin=1000, burnin=100000)
+
+save(GM_fin_lrg, file='GM_final_lrg.Rdata')
 
 # Now we run the G matrix (prior4) and univariate MCMC objects (prior1)
 # Note that this is where one can insert different priors (ie. to test and select one from many)
@@ -114,12 +127,12 @@ save(GM_Jam, file='GM_Jam.Rdata')
 # Now we will run independent G matrices and univariate MCMC objects for the 5 largest populations of T. ulmifolia we sampled: 
 # Browntown, Cave, Mosquito Cove, Murdock, and St. Ann's Bay.
 
-dataG$site<-as.factor(dataG$site)
-data_pop<-dataG[(dataG$site=='BT'|dataG$site=='Ca'|dataG$site=='MC'|dataG$site=='Mu'|dataG$site=='SA'),]
-data_pop<-droplevels(data_pop)
+df$site<-as.factor(df$site)
+df_pop<-df[(df$site=='BT'|df$site=='Ca'|df$site=='MC'|df$site=='Mu'|df$site=='SA'),]
+df_pop<-droplevels(df_pop)
 data_pop<-data_pop[,-c(2,3)]
 
-pop.pheno<-merge(x=data_pop,y=blk,by.x="id",by.y="id",all.x=F,all.y=F)
+pop.pheno<-merge(x=df_pop,y=blk,by.x="id",by.y="id",all.x=F,all.y=F)
 
 master<-merge(x=pop.pheno,y=ped,by.x="id",by.y="id",all.x=F,all.y=F)
 ped<-master[,c(1,9:12)]
@@ -305,7 +318,7 @@ for (i in 1:1000){
 
 #GMs and univariate MCMC objects can then be run on the randomized data sets. 
 
-################################################################################################################3
+################################################################################################################
 
 # Assessing the significance of genetic variance estimates (diagonals in the G matrices)
 # Bayesian heritability estimates can be found in the heritability code. 
@@ -448,3 +461,15 @@ for (i in c(1,5,8,10)){
   table[i,4]<-UQ
 }
 
+################################################################################################################
+               
+# Fitting average G within populations and D at the same time
+                     
+GM_Jam_pop_mean<-MCMCglmm(cbind(mn_elave,mn_efn_nec,mn_fn,mn_herk) ~ 1 , 
+                          random=~block + us(trait):animal + us(trait):site, rcov=~us(trait):units, #no trait main effect, should be 0 since data is centered (above)
+                          family=c("gaussian","gaussian","gaussian","gaussian"),
+                          pedigree=jam.ped, data=jam.pheno, prior=prior,
+                          verbose=FALSE,pr=TRUE,nitt=10100000, thin=1000, burnin=100000)
+
+save(GM_Jam_pop_mean, file='JamGwD_final.Rdata')                     
+                     
