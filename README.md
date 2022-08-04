@@ -3,11 +3,11 @@ This is a repository for data and code pertaining to the manuscript "The genetic
 
 Below are a description of each file included in this repository. For ease of interpretation, I have broken code and data files into conceptual sections.
 
-######################################################################################
+#########################################Data#############################################
 
 1. "Keystone" data summarizing key information or used in multiple analyses.
 
-  a. Trait and seedset data.xlsx: an excel file containing phenotype data for all _Turnera ulmifolia_ plants. Second tab includes data from seedset experiment.
+  a. Trait and seedset data.xlsx: excel file containing phenotype data for all _Turnera ulmifolia_ plants. Second tab includes data from seedset experiment.
 
   b. pheno.txt: text file containing data for all plants. This file is uploaded in the following R codes : GMatrix_Estimation_final.R, Population_Mean_Trait_Variation.R.
 
